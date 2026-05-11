@@ -109,28 +109,32 @@
 
           <figure class="figure-frame figure-wide">
             <img src="assets/images/method.png" alt="Overview of the HCSG framework.">
-            <figcaption>
-              The agent builds an online topological graph, detects nearby humans, reasons about them with geometric and
-              semantic modules, and selects language-grounded waypoints with human-aware features.
+            <figcaption class="method-caption">
+              <p>
+                At timestep <span class="math">t</span>, HCSG follows waypoint-based VLN: the agent receives panoramic observations
+                <span class="math">O_t = (V_t^rgb, V_t^depth)</span>, and an external waypoint predictor
+                <span class="math">f_way</span> generates candidate nodes <span class="math">W_t</span> for the next action.
+              </p>
+              <p>
+                The visual encoder extracts static node features as
+                <span class="math">F_{t,k}^static = E_v(O_{t,k})</span>; when humans are detected, the waypoint pause is used
+                to collect a short temporal observation sequence
+                <span class="math">S = &lt;O_tau&gt;_{tau=t}^{t+m-1}</span>.
+              </p>
+              <p>
+                For detected human <span class="math">j</span>, the geometric stream encodes
+                <span class="math">F_{t,k,j}^geo = E_g(P_j^{1:m})</span>, while the semantic stream generates
+                <span class="math">T_{t,k,j} = VLM(I_{t,k,j}, Q)</span> and encodes
+                <span class="math">F_{t,k,j}^sem = E_s(T_{t,k,j})</span>.
+              </p>
+              <p>
+                These cues are fused with the static scene representation as
+                <span class="math">F_{t,k}^fused = MLP(F_{t,k}^static, 1/J sum_j(F_{t,k,j}^geo + F_{t,k,j}^sem))</span>,
+                and the final waypoint action is selected by
+                <span class="math">a_{t+1} = FFN(GASA(F_t^fused, W_t, I))</span>.
+              </p>
             </figcaption>
           </figure>
-
-          <div class="two-column figures figure-pair">
-            <figure class="figure-frame compact">
-              <img src="assets/images/geometric.png" alt="Human geometric reasoning module.">
-              <figcaption>
-                <strong>Geometric reasoning.</strong> Pose and trajectory predictors forecast future human motion and provide
-                proactive safety cues.
-              </figcaption>
-            </figure>
-            <figure class="figure-frame compact">
-              <img src="assets/images/semantic.png" alt="Human semantic reasoning module.">
-              <figcaption>
-                <strong>Semantic reasoning.</strong> A VLM turns human-centered observations into action and intention descriptions
-                for instruction grounding.
-              </figcaption>
-            </figure>
-          </div>
         </div>
       </section>
 

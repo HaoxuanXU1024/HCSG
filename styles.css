@@ -277,7 +277,7 @@ h3 {
 }
 
 .figure-wide {
-  width: min(880px, 100%);
+  width: min(936px, 100%);
   margin-right: auto;
   margin-left: auto;
 }
@@ -300,6 +300,24 @@ h3 {
   color: var(--muted);
   font-size: 14px;
   line-height: 1.45;
+}
+
+.method-caption {
+  text-align: left;
+}
+
+.method-caption p {
+  margin-bottom: 8px;
+}
+
+.method-caption p:last-child {
+  margin-bottom: 0;
+}
+
+.math {
+  color: var(--ink-soft);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.95em;
 }
 
 .figure-frame.compact {
