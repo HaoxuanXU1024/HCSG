@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="HCSG: Human-Centric Semantic-Geometric Reasoning for Vision-Language Navigation">
+    <title>HCSG: Human-Centric Semantic-Geometric Reasoning for Vision-Language Navigation</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav" aria-label="Main navigation">
+        <a class="brand" href="#">HCSG</a>
+        <div class="nav-links">
+          <a href="#abstract">Abstract</a>
+          <a href="#method">Method</a>
+          <a href="#results">Results</a>
+          <a href="#demos">Demos</a>
+          <a href="#citation">Citation</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero section">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Vision-Language Navigation in Human-Populated Environments</p>
+            <h1>HCSG: Human-Centric Semantic-Geometric Reasoning for Vision-Language Navigation</h1>
+            <p class="authors">
+              Haoxuan Xu, Tianfu Li, Wenbo Chen, Yi Liu, Jin Wu, Huashuo Lei, Yunfan Lou,
+              Lujia Wang, Hesheng Wang, Haoang Li
+            </p>
+            <p class="affiliations">
+              HKUST (Guangzhou), Tsinghua University, University of Science and Technology Beijing,
+              National University of Singapore, Shanghai Jiao Tong University
+            </p>
+            <div class="actions">
+              <a class="button primary" href="assets/paper/HCSG.pdf">Paper PDF</a>
+              <a class="button" href="https://github.com/HaoxuanXU1024/HCSG">GitHub</a>
+              <a class="button" href="#demos">Real-World Demos</a>
+            </div>
+          </div>
+
+          <div class="metrics" aria-label="Key results">
+            <div class="metric">
+              <span class="metric-value">+14.3%</span>
+              <span class="metric-label">Success Rate over the best baseline on validation-unseen</span>
+            </div>
+            <div class="metric">
+              <span class="metric-value">-34.5%</span>
+              <span class="metric-label">Collision Rate compared with the second-best baseline</span>
+            </div>
+            <div class="metric">
+              <span class="metric-value">82%</span>
+              <span class="metric-label">Overall success rate in physical robot deployment</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section teaser">
+        <div class="container">
+          <figure class="figure-frame">
+            <img src="assets/images/overview.png" alt="Illustrative HCSG navigation scenario with semantic and geometric reasoning.">
+            <figcaption>
+              HCSG combines semantic interpretation and geometric forecasting to navigate toward task-relevant people while maintaining safe social distance.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="abstract" class="section">
+        <div class="container narrow">
+          <h2>Abstract</h2>
+          <p>
+            Vision-Language Navigation (VLN) has achieved remarkable progress by scaling data and model capacity.
+            However, the assumption of a static environment breaks down in real-world indoor scenarios, where robots
+            inevitably encounter dynamic pedestrians. Existing human-aware approaches typically treat humans as moving
+            obstacles based on implicit visual cues, lacking explicit reasoning about human intentions and social norms.
+          </p>
+          <p>
+            HCSG is a human-centric framework for VLN that shifts the paradigm from passive collision avoidance to active
+            human behavior understanding. It introduces a unified Human Understanding Module with two complementary
+            capabilities: geometric forecasting, which predicts human pose and trajectory to anticipate future motion, and
+            semantic interpretation, which uses a Vision-Language Model to generate natural-language descriptions of human
+            actions and intentions. These semantic-geometric representations are fused into the agent's topological map for
+            instruction-conditioned planning, while a Social Distance Loss encourages socially compliant interaction.
+          </p>
+        </div>
+      </section>
+
+      <section id="method" class="section alt">
+        <div class="container">
+          <div class="section-heading">
+            <h2>Method Overview</h2>
+            <p>
+              HCSG injects explicit human-centric reasoning into a waypoint-based VLN policy through parallel geometric
+              and semantic streams.
+            </p>
+          </div>
+
+          <figure class="figure-frame">
+            <img src="assets/images/method.png" alt="Overview of the HCSG framework.">
+            <figcaption>
+              The agent builds an online topological graph, detects nearby humans, reasons about them with geometric and
+              semantic modules, and selects language-grounded waypoints with human-aware features.
+            </figcaption>
+          </figure>
+
+          <div class="two-column figures">
+            <figure class="figure-frame compact">
+              <img src="assets/images/geometric.png" alt="Human geometric reasoning module.">
+              <figcaption>
+                <strong>Geometric reasoning.</strong> Pose and trajectory predictors forecast future human motion and provide
+                proactive safety cues.
+              </figcaption>
+            </figure>
+            <figure class="figure-frame compact">
+              <img src="assets/images/semantic.png" alt="Human semantic reasoning module.">
+              <figcaption>
+                <strong>Semantic reasoning.</strong> A VLM turns human-centered observations into action and intention descriptions
+                for instruction grounding.
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section id="results" class="section">
+        <div class="container">
+          <div class="section-heading">
+            <h2>Experimental Results</h2>
+            <p>
+              On HA-VLNCE, HCSG improves navigation success while substantially reducing human-related collisions.
+            </p>
+          </div>
+
+          <div class="table-block">
+            <h3>Comparison with State-of-the-Art Methods on HA-VLNCE</h3>
+            <div class="table-scroll" role="region" aria-label="HA-VLNCE benchmark table" tabindex="0">
+              <table>
+                <thead>
+                  <tr>
+                    <th rowspan="2">Models</th>
+                    <th colspan="3">Validation Seen</th>
+                    <th colspan="3">Validation Unseen</th>
+                  </tr>
+                  <tr>
+                    <th>TCR &darr;</th>
+                    <th>CR &darr;</th>
+                    <th>SR &uarr;</th>
+                    <th>TCR &darr;</th>
+                    <th>CR &darr;</th>
+                    <th>SR &uarr;</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>HA-VLN-CMA</td>
+                    <td>63.09</td>
+                    <td>0.77</td>
+                    <td>0.05</td>
+                    <td>47.06</td>
+                    <td>0.77</td>
+                    <td>0.07</td>
+                  </tr>
+                  <tr>
+                    <td>HA-VLN-CMA-DA</td>
+                    <td>17.45</td>
+                    <td>0.61</td>
+                    <td>0.17</td>
+                    <td>27.25</td>
+                    <td>0.69</td>
+                    <td>0.09</td>
+                  </tr>
+                  <tr>
+                    <td>HA-VLN-VL</td>
+                    <td>4.44</td>
+                    <td>0.52</td>
+                    <td>0.20</td>
+                    <td>6.63</td>
+                    <td>0.59</td>
+                    <td>0.14</td>
+                  </tr>
+                  <tr>
+                    <td>LAW-VLNCE</td>
+                    <td>4.31</td>
+                    <td>0.54</td>
+                    <td>0.21</td>
+                    <td>5.88</td>
+                    <td>0.65</td>
+                    <td>0.15</td>
+                  </tr>
+                  <tr>
+                    <td>DUET</td>
+                    <td>4.18</td>
+                    <td>0.48</td>
+                    <td>0.22</td>
+                    <td>5.74</td>
+                    <td>0.63</td>
+                    <td>0.16</td>
+                  </tr>
+                  <tr>
+                    <td>ETPNav</td>
+                    <td>4.07</td>
+                    <td>0.43</td>
+                    <td>0.24</td>
+                    <td>6.94</td>
+                    <td>0.58</td>
+                    <td>0.17</td>
+                  </tr>
+                  <tr>
+                    <td>GridMM</td>
+                    <td>3.92</td>
+                    <td>0.45</td>
+                    <td>0.24</td>
+                    <td>5.76</td>
+                    <td>0.59</td>
+                    <td>0.18</td>
+                  </tr>
+                  <tr>
+                    <td>BEVBert</td>
+                    <td>3.64</td>
+                    <td>0.46</td>
+                    <td>0.27</td>
+                    <td><strong>4.71</strong></td>
+                    <td>0.55</td>
+                    <td>0.21</td>
+                  </tr>
+                  <tr class="ours">
+                    <td>HCSG (Ours)</td>
+                    <td><strong>3.63</strong></td>
+                    <td><strong>0.34</strong></td>
+                    <td><strong>0.29</strong></td>
+                    <td>5.02</td>
+                    <td><strong>0.36</strong></td>
+                    <td><strong>0.24</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="two-column figures">
+            <figure class="figure-frame compact">
+              <img src="assets/images/case1.png" alt="Qualitative HA-VLNCE case study where HCSG recognizes relevant human behavior.">
+              <figcaption>
+                HCSG recognizes instruction-relevant human behavior and completes the navigation task.
+              </figcaption>
+            </figure>
+            <figure class="figure-frame compact">
+              <img src="assets/images/case2.png" alt="Qualitative HA-VLNCE case study where HCSG avoids a moving person.">
+              <figcaption>
+                HCSG anticipates dynamic human motion and avoids collision while continuing toward the goal.
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section id="demos" class="section alt">
+        <div class="container">
+          <div class="section-heading">
+            <h2>Real-World Deployment</h2>
+            <p>
+              Five physical robot scenarios correspond to Fig. 7(a-e), covering stationary interaction targets, pacing or
+              crossing pedestrians, hallway blockage, and blind-corner encounters.
+            </p>
+          </div>
+
+          <figure class="figure-frame">
+            <img src="assets/images/real_world.png" alt="Real-world deployment scenarios for HCSG.">
+            <figcaption>
+              Qualitative real-world deployment on the NXROBO Leo platform across five representative human-populated scenarios.
+            </figcaption>
+          </figure>
+
+          <div class="video-grid">
+            <article class="demo-card">
+              <video controls preload="metadata" poster="assets/posters/demo_a.jpg">
+                <source src="assets/videos/demo_a.mp4" type="video/mp4">
+              </video>
+              <h3>Fig. 7(a): Interacting Pedestrians</h3>
+              <p>Stop in front of two interacting pedestrians and wait at a socially appropriate distance.</p>
+            </article>
+            <article class="demo-card">
+              <video controls preload="metadata" poster="assets/posters/demo_b.jpg">
+                <source src="assets/videos/demo_b.mp4" type="video/mp4">
+              </video>
+              <h3>Fig. 7(b): Pacing Pedestrian</h3>
+              <p>Avoid a pacing pedestrian near a pillar through proactive detour planning.</p>
+            </article>
+            <article class="demo-card">
+              <video controls preload="metadata" poster="assets/posters/demo_c.jpg">
+                <source src="assets/videos/demo_c.mp4" type="video/mp4">
+              </video>
+              <h3>Fig. 7(c): Open Lounge Crossing</h3>
+              <p>Navigate to the target while safely avoiding a moving pedestrian crossing the path.</p>
+            </article>
+            <article class="demo-card">
+              <video controls preload="metadata" poster="assets/posters/demo_d.jpg">
+                <source src="assets/videos/demo_d.mp4" type="video/mp4">
+              </video>
+              <h3>Fig. 7(d): Hallway Blockage</h3>
+              <p>Identify a stationary human in the hallway and bypass without treating them as the goal.</p>
+            </article>
+            <article class="demo-card">
+              <video controls preload="metadata" poster="assets/posters/demo_e.jpg">
+                <source src="assets/videos/demo_e.mp4" type="video/mp4">
+              </video>
+              <h3>Fig. 7(e): Blind Corner</h3>
+              <p>Traverse a corridor while yielding to an unseen pedestrian appearing from a blind corner.</p>
+            </article>
+          </div>
+
+          <div class="table-block">
+            <h3>Quantitative Results of Real-World Deployment</h3>
+            <div class="table-scroll" role="region" aria-label="Real-world deployment table" tabindex="0">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Real-World Scenario</th>
+                    <th>BEVBert</th>
+                    <th>HCSG (Ours)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Scenario (a): Stop in front of interacting pedestrians</td>
+                    <td>3/10 (30%)</td>
+                    <td><strong>9/10 (90%)</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Scenario (b): Avoid pacing pedestrian on phone</td>
+                    <td>3/10 (30%)</td>
+                    <td><strong>7/10 (70%)</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Scenario (c): Navigate to plant, avoid moving human</td>
+                    <td>5/10 (50%)</td>
+                    <td><strong>9/10 (90%)</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Scenario (d): Bypass standing human in hallway</td>
+                    <td>6/10 (60%)</td>
+                    <td><strong>9/10 (90%)</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Scenario (e): Traverse corridor, avoid corner pedestrian</td>
+                    <td>2/10 (20%)</td>
+                    <td><strong>7/10 (70%)</strong></td>
+                  </tr>
+                  <tr class="ours">
+                    <td>Overall Average</td>
+                    <td>19/50 (38%)</td>
+                    <td><strong>41/50 (82%)</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="citation" class="section">
+        <div class="container narrow">
+          <h2>Citation</h2>
+          <p>Citation information will be updated after publication.</p>
+          <pre><code>@article{xu2026hcsg,
+  title={HCSG: Human-Centric Semantic-Geometric Reasoning for Vision-Language Navigation},
+  author={Xu, Haoxuan and Li, Tianfu and Chen, Wenbo and Liu, Yi and Wu, Jin and Lei, Huashuo and Lou, Yunfan and Wang, Lujia and Wang, Hesheng and Li, Haoang},
+  year={2026}
+}</code></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <span>HCSG Project Page</span>
+        <span>Human-Centric Semantic-Geometric Reasoning for VLN</span>
+      </div>
+    </footer>
+  </body>
+</html>
