@@ -316,8 +316,9 @@ h3 {
 
 .math {
   color: var(--ink-soft);
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  font-size: 0.95em;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.02em;
+  font-style: italic;
 }
 
 .figure-frame.compact {

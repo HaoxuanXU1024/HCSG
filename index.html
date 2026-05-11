@@ -112,26 +112,31 @@
             <figcaption class="method-caption">
               <p>
                 At timestep <span class="math">t</span>, HCSG follows waypoint-based VLN: the agent receives panoramic observations
-                <span class="math">O_t = (V_t^rgb, V_t^depth)</span>, and an external waypoint predictor
-                <span class="math">f_way</span> generates candidate nodes <span class="math">W_t</span> for the next action.
+                <span class="math">O<sub>t</sub> = (V<sub>t</sub><sup>rgb</sup>, V<sub>t</sub><sup>depth</sup>)</span>,
+                and an external waypoint predictor <span class="math">f<sub>way</sub></span> generates candidate nodes
+                <span class="math">W<sub>t</sub></span> for the next action.
               </p>
               <p>
                 The visual encoder extracts static node features as
-                <span class="math">F_{t,k}^static = E_v(O_{t,k})</span>; when humans are detected, the waypoint pause is used
+                <span class="math">F<sub>t,k</sub><sup>static</sup> = E<sub>v</sub>(O<sub>t,k</sub>)</span>;
+                when humans are detected, the waypoint pause is used
                 to collect a short temporal observation sequence
-                <span class="math">S = &lt;O_tau&gt;_{tau=t}^{t+m-1}</span>.
+                <span class="math">S = &lang;O<sub>&tau;</sub>&rang;<sub>&tau;=t</sub><sup>t+m-1</sup></span>.
               </p>
               <p>
                 For detected human <span class="math">j</span>, the geometric stream encodes
-                <span class="math">F_{t,k,j}^geo = E_g(P_j^{1:m})</span>, while the semantic stream generates
-                <span class="math">T_{t,k,j} = VLM(I_{t,k,j}, Q)</span> and encodes
-                <span class="math">F_{t,k,j}^sem = E_s(T_{t,k,j})</span>.
+                <span class="math">F<sub>t,k,j</sub><sup>geo</sup> = E<sub>g</sub>(P<sub>j</sub><sup>1:m</sup>)</span>,
+                while the semantic stream generates
+                <span class="math">T<sub>t,k,j</sub> = VLM(I<sub>t,k,j</sub>, Q)</span> and encodes
+                <span class="math">F<sub>t,k,j</sub><sup>sem</sup> = E<sub>s</sub>(T<sub>t,k,j</sub>)</span>.
               </p>
               <p>
                 These cues are fused with the static scene representation as
-                <span class="math">F_{t,k}^fused = MLP(F_{t,k}^static, 1/J sum_j(F_{t,k,j}^geo + F_{t,k,j}^sem))</span>,
+                <span class="math">F<sub>t,k</sub><sup>fused</sup> =
+                  MLP(F<sub>t,k</sub><sup>static</sup>, (1/J)&sum;<sub>j=1</sub><sup>J</sup>
+                  (F<sub>t,k,j</sub><sup>geo</sup> + F<sub>t,k,j</sub><sup>sem</sup>))</span>,
                 and the final waypoint action is selected by
-                <span class="math">a_{t+1} = FFN(GASA(F_t^fused, W_t, I))</span>.
+                <span class="math">a<sub>t+1</sub> = FFN(GASA(F<sub>t</sub><sup>fused</sup>, W<sub>t</sub>, I))</span>.
               </p>
             </figcaption>
           </figure>
