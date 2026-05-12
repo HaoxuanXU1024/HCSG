@@ -138,19 +138,36 @@
                 \]
               </div>
               <p>
-                For detected human \(j\), the geometric stream encodes the individual-centric trajectory, while the
-                semantic stream generates and encodes a VLM description:
+                For detected human \(j\), HCSG first constructs the geometric stream from two future-oriented cues.
+                The pose branch estimates body keypoints, while the trajectory branch derives relative motion cues from
+                depth-based projection and predicts future occupancy:
               </p>
               <div class="equation">
                 \[
-                \mathcal{F}_{t,k,j}^{\mathrm{geo}} = \mathcal{E}_{g}(\mathcal{P}_j^{1:m}), \quad
-                \mathcal{T}_{t,k,j} = \mathrm{VLM}(I_{t,k,j}, \mathcal{Q}), \quad
-                \mathcal{F}_{t,k,j}^{\mathrm{sem}} = \mathcal{E}_{s}(\mathcal{T}_{t,k,j}).
+                \mathcal{P}_{j}^{\mathrm{pose}} = \left\{\mathbf{K}_{j}^{m}\right\}_{m=1}^{M}, \quad
+                \mathbf{K}_{j}^{m} = \left\{\mathbf{k}_{i,m}^{\mathrm{pose}}\right\}_{i=1}^{17},
+                \]
+                \[
+                \mathcal{F}_{t,k,j}^{\mathrm{geo}} =
+                \mathcal{E}_{g}\left(
+                \mathcal{P}_{j}^{\mathrm{pose}},
+                \mathcal{P}_{j}^{\mathrm{traj}}
+                \right).
                 \]
               </div>
               <p>
-                These cues are fused with the static scene representation, and the final waypoint action is selected from
-                the resulting human-aware topological representation:
+                The semantic stream then uses the cropped human observation and task-specific prompt to obtain a
+                navigation-relevant VLM description, which is encoded as the semantic feature:
+              </p>
+              <div class="equation">
+                \[
+                \mathcal{F}_{t,k,j}^{\mathrm{sem}} =
+                \mathcal{E}_{s}\left(\mathrm{VLM}(I_{t,k,j}, \mathcal{Q})\right).
+                \]
+              </div>
+              <p>
+                The geometric and semantic cues are fused with the static scene representation, and the final waypoint
+                action is selected from the resulting human-aware topological representation:
               </p>
               <div class="equation">
                 \[
